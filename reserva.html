@@ -5,20 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="/logo/favicon.png" />
   <title>Reservar — Aldeias Palace Hotel</title>
+  <link rel="stylesheet" href="/src/tokens.css" />
   <link rel="stylesheet" href="/src/nav.css" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap');
-    :root {
-      --rc-terracota: #8A3A2A;
-      --rc-terracota-hover: #9C4A37;
-      --rc-gold: #D4AF37;
-      --rc-cream-chip: #EADCC5;
-      --rc-card-bg: #F4F1EB;
-      --rc-text-muted: #6B5847;
-      --rc-title-font: 'Cinzel', serif;
-      --rc-body-font: 'Montserrat', sans-serif;
-    }
-    body { margin: 0; background: var(--rc-cream-chip); font-family: var(--rc-body-font); }
+    body { margin: 0; background: var(--rc-page-bg); font-family: var(--rc-body-font); padding-top: 0; }
     .reserva-wrap {
       min-height: 100vh;
       display: flex;
@@ -42,15 +32,16 @@
       margin: 0 0 28px;
     }
     .reserva-wrap a.btn {
-      background: var(--rc-terracota);
-      color: #fff;
+      background: linear-gradient(180deg, #EFC468, var(--rc-gold));
+      color: var(--rc-forest-dk);
       text-decoration: none;
-      padding: 14px 30px;
-      border-radius: 10px;
+      padding: 15px 32px;
+      border-radius: 999px;
       font-weight: 700;
       font-size: 14.5px;
+      box-shadow: 0 10px 24px rgba(217, 164, 65, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
-    .reserva-wrap a.btn:hover { background: var(--rc-terracota-hover); }
+    .reserva-wrap a.btn:hover { transform: translateY(-2px); }
     .reserva-wrap .voltar {
       margin-top: 20px;
       font-size: 13px;
