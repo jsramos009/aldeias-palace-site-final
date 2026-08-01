@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aldeias Palace Hotel — Tucumã, PA</title>
+  <link rel="icon" href="/logo/favicon.png" />
+  <meta name="description" content="Hotel executivo em Tucumã, PA. Conforto, tecnologia e cuidado para quem viaja a trabalho." />
+  <link rel="stylesheet" href="/src/rooms.css" />
+  <link rel="stylesheet" href="/src/hero.css" />
+  <link rel="stylesheet" href="/src/sections.css" />
+  <link rel="stylesheet" href="/src/nav.css" />
+  <style>
+    body { margin: 0; background: #F4F1EB; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header-root"></div>
+
+  <section class="hero-scroll">
+    <div class="hero-pin">
+      <video
+        class="hero-video"
+        poster="/video/hero-poster.jpg"
+        muted
+        playsinline
+        preload="auto"
+      >
+        <source src="/video/hero-entrada.webm" type="video/webm" />
+        <source src="/video/hero-entrada.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-copy">
+        <p class="hero-copy__eyebrow">Tucumã · Pará</p>
+        <h1 class="hero-copy__title">Aldeias Palace</h1>
+        <p class="hero-copy__subtitle">A grandeza de ser bem recebido.</p>
+        <div class="hero-copy__ctas">
+          <a class="hero-copy__cta-primary" href="acomodacoes.html">Ver acomodações</a>
+          <a class="hero-copy__cta-secondary js-reserva-cta" href="reserva.html">ou reserve agora</a>
+        </div>
+      </div>
+      <div class="hero-copy__scroll-hint">Role para entrar</div>
+    </div>
+  </section>
+
+  <section class="about-teaser">
+    <p class="about-teaser__eyebrow">Desde 2010</p>
+    <h2 class="about-teaser__title">Dezesseis anos recebendo quem move Tucumã</h2>
+    <p class="about-teaser__text">
+      Nascido para atender empresas no mesmo momento em que a região começava a
+      receber grandes operações como a da Vale, o Aldeias segue no mesmo
+      endereço, agora em uma nova fase: mais conforto, mais tecnologia, e o
+      mesmo cuidado que sustenta a casa há dezesseis anos.
+    </p>
+    <a class="about-teaser__link" href="sobre.html">Conheça nossa história</a>
+  </section>
+
+  <section id="acomodacoes-root"></section>
+
+  <section class="mosaic-section">
+    <div class="mosaic-section__heading">
+      <p class="mosaic-section__eyebrow">Um pouco da casa</p>
+      <h2 class="mosaic-section__title">Momentos do Aldeias</h2>
+    </div>
+    <div class="mosaic-grid">
+      <div class="mosaic-grid__item mosaic-grid__item--wide">
+        <img src="/gallery/salao-cafe.jpg" alt="Salão do café da manhã do Aldeias Palace Hotel" loading="lazy" />
+        <span class="mosaic-grid__caption">Salão do café da manhã</span>
+      </div>
+      <div class="mosaic-grid__item mosaic-grid__item--tall">
+        <img src="/gallery/sala-espera.jpg" alt="Sala de espera do Aldeias Palace Hotel" loading="lazy" />
+        <span class="mosaic-grid__caption">Sala de espera</span>
+      </div>
+      <div class="mosaic-grid__item mosaic-grid__item--small-a">
+        <img src="/gallery/capela.jpg" alt="Capela do Aldeias Palace Hotel" loading="lazy" />
+        <span class="mosaic-grid__caption">Capela</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <p class="final-cta__eyebrow">Sua próxima estadia em Tucumã</p>
+    <h2 class="final-cta__title">Sua experiência começa aqui.</h2>
+    <div class="final-cta__ctas">
+      <a class="hero-copy__cta-primary final-cta__primary" href="acomodacoes.html">Ver acomodações</a>
+      <a class="hero-copy__cta-secondary final-cta__secondary js-reserva-cta" href="reserva.html">ou reserve agora</a>
+    </div>
+  </section>
+
+  <div id="site-footer-root"></div>
+
+  <script type="module">
+    import { initHeader, initFooter } from '/src/nav.js';
+    import { initHero } from '/src/hero.js';
+    import { renderRoomsGrid } from '/src/rooms-render.js';
+    import { animate } from 'animejs';
+
+    initHeader();
+    initFooter();
+    initHero('.hero-scroll');
+    renderRoomsGrid('#acomodacoes-root');
+
+    document.querySelectorAll('.room-card__cta, .about-teaser__link').forEach((el) => {
+      el.addEventListener('mouseenter', () => animate(el, { scale: 1.03, duration: 200, ease: 'outQuad' }));
+      el.addEventListener('mouseleave', () => animate(el, { scale: 1, duration: 200, ease: 'outQuad' }));
+    });
+  </script>
+</body>
+</html>
