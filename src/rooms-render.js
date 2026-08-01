@@ -1,71 +1,72 @@
-// Aldeias Palace Hotel — renderização dos cartões de categoria de quarto
-// Consome ROOM_CATEGORIES (rooms-data.js) e monta o grid de Acomodações.
-// Este é o componente que deve ser usado dentro do site real (página
-// /acomodacoes), não uma peça de apresentação avulsa.
+// Aldeias Palace Hotel — carrossel de categorias de quarto (estilo
+// "fileira Netflix"): uma trilha horizontal com todos os cards, setas
+// laterais para navegar, sem paginação vertical em grid.
+//
+// Por pedido explícito do cliente (01/08/2026): a listagem mostra só foto
+// e nome da categoria, sem diária/valor. O valor só aparece dentro do
+// processo de reserva, não na vitrine. Ver ROOM_CATEGORIES em
+// rooms-data.js — os campos de preço continuam lá (para uso futuro do
+// sistema de reservas), só não são renderizados aqui nem na página de
+// detalhe do quarto.
 
 import { ROOM_CATEGORIES } from './rooms-data.js';
-
-function formatBRL(valor) {
-  return valor.toLocaleString('pt-BR', { minimumFractionDigits: 0 });
-}
 
 function renderCard(categoria) {
   const imagemPrincipal = categoria.imagens[0];
 
-  const amenidadesHTML = categoria.amenidades
-    .map((a) => `<li>${a}</li>`)
-    .join('');
-
-  const tagReal = imagemPrincipal.real
-    ? `<span class="room-card__real-tag">Foto real</span>`
-    : `<span class="room-card__placeholder-tag">Imagem ilustrativa</span>`;
-
   const tagNova = categoria.novaCategoria
-    ? `<span class="room-card__new-tag">Categoria nova</span>`
-    : '';
-
-  const precoDetalhe = categoria.diariaDetalhe
-    ? `<div class="room-card__price-detail">${categoria.diariaDetalhe}</div>`
+    ? `<span class="room-card__new-tag">Nova categoria</span>`
     : '';
 
   const petNote = categoria.aceitaPet
-    ? `<div class="room-card__pet-note">Aceita pet</div>`
+    ? `<span class="room-card__pet-tag">Aceita pet</span>`
     : '';
 
-  const precoHTML = categoria.diariaSobConsulta
-    ? `<div class="room-card__price room-card__price--consulta">Sob consulta</div>`
-    : `<div class="room-card__price">R$ ${formatBRL(categoria.diaria)} <span>/ diária</span></div>`;
-
   return `
-    <article class="room-card" data-categoria="${categoria.id}">
+    <a class="room-card" href="quarto.html?id=${categoria.id}" data-categoria="${categoria.id}">
       <div class="room-card__media">
         <img src="${imagemPrincipal.src}" alt="${categoria.nome} — Aldeias Palace Hotel" loading="lazy" />
-        <span class="room-card__badge">${categoria.ocupacao}</span>
-        ${tagReal}
+        <div class="room-card__scrim"></div>
         ${tagNova}
-      </div>
-      <div class="room-card__body">
-        <h3 class="room-card__title">${categoria.nome}</h3>
-        <div class="room-card__meta">${categoria.configuracao}${categoria.metragem ? ` &nbsp;|&nbsp; ${categoria.metragem} m²` : ''}</div>
-        <p class="room-card__desc">${categoria.descricao}</p>
-        <ul class="room-card__amenities">${amenidadesHTML}</ul>
-        ${petNote}
-        <div class="room-card__footer">
-          <div>
-            <span class="room-card__price-label">A partir de</span>
-            ${precoHTML}
-            ${precoDetalhe}
-          </div>
-          <a class="room-card__cta" href="quarto.html?id=${categoria.id}">Ver detalhes</a>
+        <div class="room-card__tags">${petNote}</div>
+        <div class="room-card__info">
+          <h3 class="room-card__title">${categoria.nome}</h3>
+          <span class="room-card__meta">${categoria.configuracao}</span>
         </div>
       </div>
-    </article>
+    </a>
   `;
 }
 
 export function renderRoomsGrid(containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
-  container.classList.add('rooms-grid');
-  container.innerHTML = ROOM_CATEGORIES.map(renderCard).join('');
+
+  container.classList.add('rooms-carousel');
+  container.innerHTML = `
+    <div class="rooms-carousel__head">
+      <div>
+        <p class="rooms-carousel__eyebrow">Acomodações</p>
+        <h2 class="rooms-carousel__title">Escolha sua categoria</h2>
+      </div>
+      <div class="rooms-carousel__arrows">
+        <button type="button" class="rooms-carousel__arrow" data-dir="-1" aria-label="Categorias anteriores">‹</button>
+        <button type="button" class="rooms-carousel__arrow" data-dir="1" aria-label="Próximas categorias">›</button>
+      </div>
+    </div>
+    <div class="rooms-carousel__track-wrap">
+      <div class="rooms-carousel__track">${ROOM_CATEGORIES.map(renderCard).join('')}</div>
+    </div>
+  `;
+
+  const track = container.querySelector('.rooms-carousel__track');
+  const arrows = container.querySelectorAll('.rooms-carousel__arrow');
+
+  arrows.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const dir = Number(btn.dataset.dir);
+      const cardWidth = track.querySelector('.room-card')?.offsetWidth || 280;
+      track.scrollBy({ left: dir * (cardWidth + 20) * 2, behavior: 'smooth' });
+    });
+  });
 }

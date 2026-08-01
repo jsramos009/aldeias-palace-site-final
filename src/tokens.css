@@ -1,0 +1,34 @@
+/* Aldeias Palace Hotel — tokens de design, fonte única de verdade.
+   Realinhado em 01/08/2026 para seguir a identidade visual do protótipo
+   comercial aprovado ("Aldeias Palace Hotel - Prototipo do Site.html"):
+   verde floresta + dourado + creme, tipografia única (Inter/SF), em vez da
+   paleta terracota/Cinzel usada na primeira versão do site final. Todo
+   arquivo CSS do projeto deve importar este arquivo e usar as variáveis
+   abaixo — não redefinir :root em nenhum outro lugar. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Identidade principal */
+  --rc-forest-dk: #12241A;
+  --rc-forest: #1F3D2B;
+  --rc-forest-lt: #2C543B;
+  --rc-gold: #D9A441;
+  --rc-gold-hover: #C4922F;
+  --rc-wood: #8C6A4F;
+  --rc-cream: #FBFAF7;
+  --rc-ink: #20241F;
+  --rc-muted: #6B6B60;
+
+  /* Aliases de compatibilidade com o restante do código (mesmos nomes
+     usados antes, valores realinhados à nova identidade) */
+  --rc-terracota: var(--rc-forest);
+  --rc-terracota-hover: var(--rc-forest-lt);
+  --rc-cream-chip: #EFEAE0;
+  --rc-card-bg: var(--rc-cream);
+  --rc-text-muted: var(--rc-muted);
+  --rc-page-bg: #F4F1EA;
+
+  --rc-title-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --rc-body-font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+}

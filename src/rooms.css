@@ -1,51 +1,114 @@
-/* Aldeias Palace Hotel — componente de card de categoria de quarto
-   Paleta corrigida em 30/07/2026: a versão anterior usava vinho jatobá do
-   estudo de reposicionamento, mas o guia OFICIAL de identidade visual do
-   projeto ("Mdelos da identidade visual/Palheta de Cores 1 e 2.jpeg") usa
-   uma paleta diferente: Terracota + Dourado + Cappuccino + Areia + Off
-   White/Preto Fosco, com tipografia Cinzel (títulos) e Montserrat (corpo).
-   Esta é a fonte de verdade. Ver memória do projeto,
-   project_aldeias_bibliotecas.md, para o registro da correção e a nota
-   sobre conflito com a preferência geral de tipografia arredondada. */
+/* Aldeias Palace Hotel — carrossel de categorias de quarto (modelo
+   "fileira Netflix"): trilha horizontal com scroll-snap, setas para
+   navegar, cards mostrando só foto + nome. Preço fica só no fluxo de
+   reserva, não aqui — ver rooms-render.js. Cores e fontes vêm de
+   tokens.css, importado por toda página que usa este arquivo. */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap');
-
-:root {
-  --rc-terracota: #8A3A2A;      /* cor institucional — badges/botões/títulos */
-  --rc-terracota-hover: #9C4A37;
-  --rc-gold: #D4AF37;           /* Dourado oficial da marca */
-  --rc-cream-chip: #EADCC5;     /* Areia — fundo de chip/rodapé do card */
-  --rc-card-bg: #F4F1EB;        /* Off White oficial (Paleta 2) */
-  --rc-text-muted: #6B5847;     /* tom escurecido do Cappuccino #CDB79E, p/ legibilidade */
-  --rc-page-bg: #EADCC5;        /* Areia, fundo da página */
-  --rc-title-font: 'Cinzel', serif;
-  --rc-body-font: 'Montserrat', sans-serif;
+.rooms-carousel {
+  padding: 64px 0 80px;
+  background: var(--rc-page-bg);
 }
 
-.rooms-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 28px;
-  max-width: 1240px;
+.rooms-carousel__head {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 24px;
-  background: var(--rc-page-bg);
+  padding: 0 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.rooms-carousel__eyebrow {
   font-family: var(--rc-body-font);
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-forest);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.rooms-carousel__title {
+  font-family: var(--rc-title-font);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  color: var(--rc-forest-dk);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.rooms-carousel__arrows {
+  display: flex;
+  gap: 10px;
+}
+
+.rooms-carousel__arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(31, 61, 43, 0.16);
+  background: var(--rc-cream);
+  color: var(--rc-forest);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(31, 61, 43, 0.08);
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.rooms-carousel__arrow:hover {
+  background: var(--rc-forest);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.rooms-carousel__track-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.rooms-carousel__track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 8px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rooms-carousel__track::-webkit-scrollbar {
+  display: none;
 }
 
 .room-card {
-  background: var(--rc-card-bg);
-  border-radius: 20px;
+  position: relative;
+  flex: 0 0 auto;
+  width: 280px;
+  aspect-ratio: 2 / 3;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 8px 28px rgba(138, 58, 42, 0.16);
-  display: flex;
-  flex-direction: column;
+  scroll-snap-align: start;
+  text-decoration: none;
+  display: block;
+  box-shadow: 0 10px 28px rgba(18, 36, 26, 0.18);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.room-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  z-index: 2;
 }
 
 .room-card__media {
   position: relative;
-  aspect-ratio: 972 / 491;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .room-card__media img {
@@ -53,176 +116,85 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 400ms ease;
 }
 
-.room-card__badge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: var(--rc-terracota);
-  color: #fff;
-  font-family: var(--rc-body-font);
-  font-size: 12.5px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+.room-card:hover .room-card__media img {
+  transform: scale(1.06);
 }
 
-.room-card__real-tag {
+.room-card__scrim {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 36, 26, 0) 40%, rgba(18, 36, 26, 0.88) 100%);
+}
+
+.room-card__new-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
   background: var(--rc-gold);
-  color: #2A1710; /* texto escuro sobre dourado: passa contraste AA (8.1:1) */
+  color: var(--rc-forest-dk);
   font-family: var(--rc-body-font);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 5px 10px;
   border-radius: 999px;
 }
 
-.room-card__placeholder-tag {
+.room-card__tags {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  background: rgba(20, 20, 18, 0.55);
-  color: #fff;
-  font-family: var(--rc-body-font);
-  font-size: 11px;
-  padding: 5px 10px;
-  border-radius: 999px;
-}
-
-.room-card__new-tag {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  background: var(--rc-terracota);
-  color: #fff;
-  font-family: var(--rc-body-font);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 5px 10px;
-  border-radius: 999px;
-}
-
-.room-card__body {
-  padding: 26px 28px 24px;
+  top: 14px;
+  right: 14px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  flex: 1;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.room-card__pet-tag {
+  background: rgba(251, 250, 247, 0.92);
+  color: var(--rc-forest-dk);
+  font-family: var(--rc-body-font);
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+
+.room-card__info {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  color: #fff;
 }
 
 .room-card__title {
   font-family: var(--rc-title-font);
-  font-size: 25px;
-  font-weight: 700;
-  color: var(--rc-terracota);
-  margin: 0;
-  letter-spacing: 0.01em;
+  font-size: 19px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .room-card__meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: var(--rc-text-muted);
-}
-
-.room-card__desc {
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--rc-text-muted);
-  margin: 0;
-}
-
-.room-card__amenities {
-  background: var(--rc-cream-chip);
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: grid;
-  gap: 9px;
-  font-size: 13.5px;
-  color: var(--rc-terracota);
-}
-
-.room-card__amenities li {
-  list-style: none;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.room-card__footer {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  background: var(--rc-cream-chip);
-  border-radius: 14px;
-  padding: 16px 18px;
-}
-
-.room-card__price-label {
-  font-size: 11.5px;
-  color: var(--rc-text-muted);
-  display: block;
-}
-
-.room-card__price {
-  font-family: var(--rc-title-font);
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--rc-terracota);
-}
-
-.room-card__price span {
   font-family: var(--rc-body-font);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--rc-text-muted);
+  font-size: 12.5px;
+  color: #E4EDE7;
+  opacity: 0.9;
 }
 
-.room-card__price-detail {
-  font-size: 11px;
-  color: var(--rc-text-muted);
-  margin-top: 2px;
-}
+@media (max-width: 700px) {
+  .rooms-carousel__head,
+  .rooms-carousel__track-wrap {
+    padding: 0 20px;
+  }
 
-.room-card__price--consulta {
-  font-size: 19px;
-}
-
-.room-card__cta {
-  background: var(--rc-terracota);
-  color: #fff;
-  border: none;
-  padding: 13px 24px;
-  border-radius: 10px;
-  font-family: var(--rc-body-font);
-  font-size: 14.5px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.room-card__cta:hover {
-  background: var(--rc-terracota-hover);
-}
-
-.room-card__pet-note {
-  font-family: var(--rc-body-font);
-  font-size: 12px;
-  color: var(--rc-terracota); /* dourado puro falhava contraste AA em texto pequeno (3.6:1); terracota passa (6.9:1) */
-  font-weight: 700;
+  .room-card {
+    width: 210px;
+  }
 }

@@ -1,14 +1,13 @@
 // Aldeias Palace Hotel — página individual de categoria de quarto (produto)
 // Lê o parâmetro ?id= da URL, busca em ROOM_CATEGORIES e monta a página.
-// Segue a estrutura pedida no PRD (10.2): hero da suíte, resumo rápido,
-// galeria, descrição emocional, comodidades, preço/CTA e relacionados.
+//
+// Por pedido do cliente (01/08/2026): nenhuma diária/valor aparece aqui.
+// O preço só entra no fluxo de reserva em si. Esta página mostra galeria,
+// configuração, descrição e comodidades, com uma chamada para reservar
+// (sem número de R$ nenhum).
 
 import { ROOM_CATEGORIES } from './rooms-data.js';
 import { applyReservaState } from './config.js';
-
-function formatBRL(valor) {
-  return valor.toLocaleString('pt-BR', { minimumFractionDigits: 0 });
-}
 
 function getCategoriaFromURL() {
   const params = new URLSearchParams(window.location.search);
@@ -61,12 +60,6 @@ export function renderQuartoPage(rootSelector = '#quarto-root') {
   const petNote = categoria.aceitaPet
     ? `<div class="quarto-price-box__pet">Aceita pet</div>`
     : '';
-  const precoDetalhe = categoria.diariaDetalhe
-    ? `<p class="quarto-price-box__detail">${categoria.diariaDetalhe}</p>`
-    : '';
-  const precoHTML = categoria.diariaSobConsulta
-    ? `<div class="quarto-price-box__value quarto-price-box__value--consulta">Sob consulta</div>`
-    : `<div class="quarto-price-box__value">R$ ${formatBRL(categoria.diaria)} <span>/ diária</span></div>`;
   const imagemPrincipal = categoria.imagens[0];
 
   root.innerHTML = `
@@ -100,11 +93,10 @@ export function renderQuartoPage(rootSelector = '#quarto-root') {
       </div>
 
       <aside class="quarto-price-box">
-        <span class="quarto-price-box__label">A partir de</span>
-        ${precoHTML}
-        ${precoDetalhe}
+        <span class="quarto-price-box__label">Interessado nesta acomodação?</span>
+        <p class="quarto-price-box__hint">Valores e disponibilidade são confirmados diretamente no processo de reserva.</p>
         ${petNote}
-        <a class="quarto-price-box__cta js-reserva-cta" href="reserva.html">Reservar esta acomodação</a>
+        <a class="quarto-price-box__cta js-reserva-cta" href="reserva.html">Consultar disponibilidade</a>
         <a class="quarto-price-box__back" href="acomodacoes.html">Ver todas as acomodações</a>
       </aside>
     </div>

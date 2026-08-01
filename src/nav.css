@@ -1,98 +1,112 @@
 /* Aldeias Palace Hotel — header/nav e rodapé compartilhados entre páginas.
-   Header transparente sobre o hero, fica sólido ao rolar (regra do PRD 5.1). */
+   Topbar modelo "Liquid Glass": pílula flutuante translúcida com blur,
+   destacada do topo da tela (não colada na borda), botões também em
+   formato pílula com o mesmo efeito de vidro. Fica discreta sobre o hero
+   e ganha mais opacidade/blur ao rolar, sem nunca virar um bloco opaco
+   reto — o vidro é a linguagem em todos os estados. */
 
 .site-header {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 50;
+  width: min(1180px, calc(100% - 32px));
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 32px;
-  background: transparent;
-  transition: background-color 220ms ease, box-shadow 220ms ease, padding 220ms ease;
+  gap: 18px;
+  padding: 10px 12px 10px 20px;
+  border-radius: 999px;
+  background: rgba(18, 36, 26, 0.32);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: background-color 260ms ease, box-shadow 260ms ease, padding 260ms ease, top 260ms ease;
 }
 
 .site-header.is-solid {
-  background: var(--rc-card-bg, #F4F1EB);
-  box-shadow: 0 2px 18px rgba(23, 33, 38, 0.08);
-  padding: 12px 32px;
+  top: 12px;
+  background: rgba(18, 36, 26, 0.62);
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .site-header__brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .site-header__mark {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   display: block;
 }
 
 .site-header__wordmark {
-  font-family: var(--rc-title-font, 'Cinzel', serif);
-  font-size: 18px;
+  font-family: var(--rc-title-font);
+  font-size: 15.5px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #F4F1EB;
-  transition: color 220ms ease;
-}
-
-.site-header.is-solid .site-header__wordmark {
-  color: var(--rc-terracota, #8A3A2A);
+  letter-spacing: 0.01em;
+  color: #FBFAF7;
+  white-space: nowrap;
 }
 
 .site-header__nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 4px;
 }
 
 .site-header__link {
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-family: var(--rc-body-font);
   font-size: 13.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #F4F1EB;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #FBFAF7;
   text-decoration: none;
-  opacity: 0.92;
-  transition: opacity 160ms ease, color 220ms ease;
-}
-
-.site-header.is-solid .site-header__link {
-  color: #4A3B30;
+  opacity: 0.82;
+  padding: 9px 16px;
+  border-radius: 999px;
+  transition: opacity 160ms ease, background-color 160ms ease;
 }
 
 .site-header__link:hover {
   opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .site-header__link--active {
-  border-bottom: 1.5px solid var(--rc-gold, #D4AF37);
-  padding-bottom: 4px;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .site-header__cta {
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-family: var(--rc-body-font);
   font-size: 13px;
   font-weight: 700;
-  color: #fff;
-  background: var(--rc-terracota, #8A3A2A);
-  border: none;
+  color: #12241A;
+  background: linear-gradient(180deg, #EFC468, var(--rc-gold));
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 999px;
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(217, 164, 65, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .site-header__cta:hover {
-  background: var(--rc-terracota-hover, #9C4A37);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(217, 164, 65, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .site-header__hamburger {
@@ -105,15 +119,11 @@
 
 .site-header__hamburger span {
   display: block;
-  width: 22px;
+  width: 20px;
   height: 2px;
-  background: #F4F1EB;
+  border-radius: 2px;
+  background: #FBFAF7;
   margin: 5px 0;
-  transition: background-color 220ms ease;
-}
-
-.site-header.is-solid .site-header__hamburger span {
-  background: var(--rc-terracota, #8A3A2A);
 }
 
 .site-header__mobile-panel {
@@ -121,14 +131,20 @@
 }
 
 @media (max-width: 860px) {
+  .site-header {
+    padding: 8px 8px 8px 16px;
+  }
+
   .site-header__nav {
     position: fixed;
     inset: 0;
-    background: var(--rc-card-bg, #F4F1EB);
+    background: rgba(18, 36, 26, 0.86);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 26px;
+    gap: 22px;
     transform: translateX(100%);
     transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -138,8 +154,9 @@
   }
 
   .site-header__nav .site-header__link {
-    color: var(--rc-terracota, #8A3A2A);
-    font-size: 18px;
+    color: #FBFAF7;
+    opacity: 0.92;
+    font-size: 19px;
   }
 
   .site-header__nav .site-header__cta {
@@ -154,27 +171,28 @@
 
 /* Aviso discreto de reserva pendente, some quando RESERVA_URL for preenchido */
 .reserva-pendente-note {
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-family: var(--rc-body-font);
   font-size: 12px;
-  color: var(--rc-text-muted, #6B5847);
+  color: var(--rc-text-muted);
   text-align: center;
   padding: 8px 16px;
-  background: var(--rc-cream-chip, #EADCC5);
+  background: var(--rc-cream-chip);
 }
 
 /* Rodapé simples */
 .site-footer {
-  background: #1a1310;
-  color: #EADCC5;
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  background: var(--rc-forest-dk);
+  color: #D9CFC0;
+  font-family: var(--rc-body-font);
   padding: 48px 24px 28px;
   text-align: center;
 }
 
 .site-footer__wordmark {
-  font-family: var(--rc-title-font, 'Cinzel', serif);
-  font-size: 20px;
-  color: #F4F1EB;
+  font-family: var(--rc-title-font);
+  font-size: 19px;
+  font-weight: 700;
+  color: #FBFAF7;
   margin: 0 0 14px;
 }
 
