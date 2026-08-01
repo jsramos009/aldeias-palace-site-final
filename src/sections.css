@@ -1,0 +1,173 @@
+/* Aldeias Palace Hotel — seções da Home: teaser de história e mosaico de fotos */
+
+.about-teaser {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 100px 24px;
+  text-align: center;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  color: #4A3B30;
+}
+
+.about-teaser__eyebrow {
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.about-teaser__title {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(28px, 4vw, 42px);
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0 0 22px;
+}
+
+.about-teaser__text {
+  font-size: 16px;
+  line-height: 1.75;
+  margin: 0 0 28px;
+}
+
+.about-teaser__link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--rc-terracota, #8A3A2A);
+  border-bottom: 1.5px solid var(--rc-gold, #D4AF37);
+  padding-bottom: 3px;
+  text-decoration: none;
+}
+
+/* Mosaico de fotos */
+
+.mosaic-section {
+  background: var(--rc-page-bg, #EADCC5);
+  padding: 90px 24px 110px;
+}
+
+.mosaic-section__heading {
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.mosaic-section__eyebrow {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-terracota, #8A3A2A);
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+
+.mosaic-section__title {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(26px, 3.6vw, 38px);
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0;
+}
+
+.mosaic-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: 260px 260px;
+  gap: 20px;
+}
+
+.mosaic-grid__item {
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 26px rgba(138, 58, 42, 0.16);
+}
+
+.mosaic-grid__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.mosaic-grid__item:hover img {
+  transform: scale(1.05);
+}
+
+.mosaic-grid__caption {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  color: #fff;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.mosaic-grid__item--wide {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.mosaic-grid__item--tall {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.mosaic-grid__item--small-a {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+@media (max-width: 760px) {
+  .mosaic-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .mosaic-grid__item--wide,
+  .mosaic-grid__item--tall,
+  .mosaic-grid__item--small-a {
+    grid-column: 1;
+    grid-row: auto;
+    height: 240px;
+  }
+}
+
+/* CTA final da Home — repete a mesma dupla "Ver acomodações / Reservar" do
+   hero, conforme a especificação da Fase Experience. */
+
+.final-cta {
+  background: #1a1310;
+  padding: 90px 24px;
+  text-align: center;
+}
+
+.final-cta__eyebrow {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-gold, #D4AF37);
+  margin: 0 0 14px;
+}
+
+.final-cta__title {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(26px, 4vw, 40px);
+  color: #F4F1EB;
+  margin: 0 0 30px;
+}
+
+.final-cta__ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}

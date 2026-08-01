@@ -1,0 +1,132 @@
+/* Aldeias Palace Hotel — página Sobre / História */
+
+.sobre-hero {
+  position: relative;
+  height: 46vh;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+.sobre-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.58);
+}
+
+.sobre-hero__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 36px;
+  text-align: center;
+  color: #F4F1EB;
+  padding: 0 24px;
+}
+
+.sobre-hero__eyebrow {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-gold, #D4AF37);
+  margin: 0 0 10px;
+}
+
+.sobre-hero__title {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(28px, 4.5vw, 46px);
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.sobre-stats {
+  max-width: 900px;
+  margin: -34px auto 0;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 0 24px;
+}
+
+.sobre-stats__item {
+  background: var(--rc-card-bg, #F4F1EB);
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(138, 58, 42, 0.14);
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+}
+
+.sobre-stats__value {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 26px;
+  color: var(--rc-terracota, #8A3A2A);
+  font-weight: 700;
+}
+
+.sobre-stats__label {
+  font-size: 11.5px;
+  color: var(--rc-text-muted, #6B5847);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sobre-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 70px 24px 40px;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  color: #4A3B30;
+}
+
+.sobre-body h2 {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(24px, 3vw, 32px);
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0 0 26px;
+  text-align: center;
+}
+
+.sobre-body p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 0 0 22px;
+}
+
+.sobre-body .sobre-signoff {
+  text-align: center;
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 18px;
+  color: var(--rc-terracota, #8A3A2A);
+  margin-top: 40px;
+}
+
+.sobre-cta {
+  text-align: center;
+  padding: 20px 24px 90px;
+}
+
+.sobre-cta a {
+  display: inline-block;
+  background: var(--rc-terracota, #8A3A2A);
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 30px;
+  border-radius: 10px;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.sobre-cta a:hover {
+  background: var(--rc-terracota-hover, #9C4A37);
+}
+
+@media (max-width: 600px) {
+  .sobre-stats {
+    grid-template-columns: 1fr;
+  }
+}

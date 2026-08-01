@@ -1,118 +1,112 @@
-/* Aldeias Palace Hotel — Hero com vídeo de entrada
-   Desktop: vídeo pinado, currentTime controlado pela rolagem (efeito
-   "entrando no hotel" conforme o usuário rola a página).
-   Mobile: vídeo toca automaticamente ao entrar na tela, pausa ao sair. */
+// Aldeias Palace Hotel — Hero de entrada
+//
+// Desktop (>= 769px): o vídeo fica pinado em tela cheia e o currentTime é
+// controlado pela posição de rolagem dentro de .hero-scroll (300vh de
+// altura, 200vh de curso de rolagem enquanto o vídeo fica fixo). Rolar
+// para baixo "avança" o vídeo, simulando entrar no hotel.
+//
+// Mobile (< 769px): scroll-scrub é ruim na maioria dos navegadores móveis
+// (jank, vídeo trava). Em vez disso, o vídeo toca normalmente assim que a
+// seção entra na tela (IntersectionObserver) e pausa ao sair, reiniciando
+// do começo para a próxima vez que o usuário rolar de volta.
 
-.hero-scroll {
-  position: relative;
-  height: 300vh; /* espaço de rolagem que alimenta o scrub do vídeo */
-  background: #1a1310;
-}
+const DESKTOP_QUERY = '(min-width: 769px)';
 
-.hero-pin {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+export function initHero(rootSelector = '.hero-scroll') {
+  const root = document.querySelector(rootSelector);
+  if (!root) return;
 
-.hero-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.62);
-}
+  const video = root.querySelector('.hero-video');
+  const pin = root.querySelector('.hero-pin');
+  if (!video || !pin) return;
 
-.hero-copy {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #F4F1EB;
-  padding: 0 24px;
-}
+  video.muted = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.playsInline = true;
 
-.hero-copy__eyebrow {
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
-  font-size: 12.5px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #D4AF37;
-  margin: 0 0 18px;
-}
+  const isDesktop = () => window.matchMedia(DESKTOP_QUERY).matches;
 
-.hero-copy__title {
-  font-family: var(--rc-title-font, 'Cinzel', serif);
-  font-size: clamp(40px, 8vw, 84px);
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: 0.03em;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-}
-
-.hero-copy__subtitle {
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
-  font-size: clamp(15px, 2vw, 20px);
-  font-weight: 400;
-  margin: 18px 0 0;
-  color: #EADCC5;
-}
-
-.hero-copy__ctas {
-  margin-top: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
-
-.hero-copy__cta-primary {
-  background: var(--rc-gold, #D4AF37);
-  color: #2A1710;
-  text-decoration: none;
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
-  font-weight: 700;
-  font-size: 14.5px;
-  padding: 14px 28px;
-  border-radius: 10px;
-}
-
-.hero-copy__cta-primary:hover {
-  background: #c49f30;
-}
-
-.hero-copy__cta-secondary {
-  color: #F4F1EB;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
-  font-size: 13.5px;
-}
-
-.hero-copy__scroll-hint {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #EADCC5;
-  opacity: 0.75;
-}
-
-/* No mobile não há scroll-scrub (o vídeo só toca/pausa conforme entra e
-   sai da tela), então os 300vh de curso de rolagem do desktop não fazem
-   sentido aqui: forçariam uma rolagem vazia enorme antes do resto da
-   página aparecer. */
-@media (max-width: 768px) {
-  .hero-scroll {
-    height: 100vh;
+  if (isDesktop()) {
+    setupScrollScrub(root, video);
+  } else {
+    setupMobileAutoplay(pin, video);
   }
+}
+
+function setupScrollScrub(root, video) {
+  video.pause();
+  video.autoplay = false;
+  video.loop = false;
+
+  let duration = video.duration || 0;
+  let ticking = false;
+
+  // Em preload="auto" os metadados às vezes já chegam antes deste script
+  // rodar, então o evento 'loadedmetadata' nunca dispara de novo e a
+  // variável duration ficava travada em 0. Cobrindo os dois casos:
+  // já carregado (readyState >= 1) e ainda por vir (listener).
+  if (video.readyState >= 1 && video.duration) {
+    duration = video.duration;
+  }
+
+  video.addEventListener('loadedmetadata', () => {
+    duration = video.duration || 0;
+    update();
+  });
+
+  function update() {
+    ticking = false;
+    if (!duration) return;
+
+    const rect = root.getBoundingClientRect();
+    const scrollRange = root.offsetHeight - window.innerHeight; // curso de rolagem útil
+    if (scrollRange <= 0) return;
+
+    // progresso 0→1 enquanto a seção passa pela tela
+    const progress = Math.min(1, Math.max(0, -rect.top / scrollRange));
+    const targetTime = progress * duration;
+
+    // evita seeks minúsculos repetidos (custoso em alguns navegadores)
+    if (Math.abs(video.currentTime - targetTime) > 0.03) {
+      video.currentTime = targetTime;
+    }
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  update();
+}
+
+function setupMobileAutoplay(pin, video) {
+  video.loop = false;
+
+  // Observa .hero-pin (100vh, o que realmente aparece na tela), não
+  // .hero-scroll (300vh, usado só como curso de rolagem no desktop). Ao
+  // observar o elemento de 300vh, a proporção visível dele nunca passa de
+  // ~33% mesmo no topo da página, então o threshold de 0.5 nunca disparava
+  // e o vídeo nunca tocava.
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            /* autoplay bloqueado pelo navegador — usuário ainda vê o poster */
+          });
+        } else {
+          video.pause();
+          video.currentTime = 0; // reinicia para a próxima vez que entrar na tela
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  observer.observe(pin);
 }

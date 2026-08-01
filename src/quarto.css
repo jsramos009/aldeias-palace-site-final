@@ -1,0 +1,285 @@
+/* Aldeias Palace Hotel — página individual de categoria de quarto */
+
+.quarto-hero {
+  position: relative;
+  height: 56vh;
+  min-height: 360px;
+  overflow: hidden;
+}
+
+.quarto-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.quarto-hero__overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  text-align: center;
+  color: #F4F1EB;
+  padding: 0 24px;
+}
+
+.quarto-hero__eyebrow {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rc-gold, #D4AF37);
+  margin: 0 0 10px;
+}
+
+.quarto-hero__title {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: clamp(30px, 5vw, 52px);
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.quarto-body {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 24px 20px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+}
+
+.quarto-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.quarto-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quarto-summary__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rc-text-muted, #6B5847);
+}
+
+.quarto-summary > div span:last-child {
+  font-size: 15px;
+  color: var(--rc-terracota, #8A3A2A);
+  font-weight: 600;
+}
+
+.quarto-gallery {
+  margin-bottom: 32px;
+}
+
+.quarto-gallery__main {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.quarto-gallery__thumbs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.quarto-gallery__thumb {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  flex-shrink: 0;
+  width: 84px;
+  height: 60px;
+}
+
+.quarto-gallery__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.quarto-gallery__thumb.is-active {
+  border-color: var(--rc-gold, #D4AF37);
+}
+
+.quarto-desc {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--rc-text-muted, #6B5847);
+  margin-bottom: 32px;
+}
+
+.quarto-amenities h2 {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 20px;
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0 0 14px;
+}
+
+.quarto-amenities ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.quarto-amenities li {
+  list-style: none;
+  background: var(--rc-cream-chip, #EADCC5);
+  color: var(--rc-terracota, #8A3A2A);
+  font-size: 13.5px;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.quarto-price-box {
+  align-self: start;
+  position: sticky;
+  top: 100px;
+  background: var(--rc-card-bg, #F4F1EB);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 28px rgba(138, 58, 42, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quarto-price-box__label {
+  font-size: 11.5px;
+  color: var(--rc-text-muted, #6B5847);
+}
+
+.quarto-price-box__value {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--rc-terracota, #8A3A2A);
+}
+
+.quarto-price-box__value--consulta {
+  font-size: 21px;
+}
+
+.quarto-price-box__value span {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--rc-text-muted, #6B5847);
+}
+
+.quarto-price-box__detail {
+  font-size: 11.5px;
+  color: var(--rc-text-muted, #6B5847);
+  margin: 0 0 4px;
+}
+
+.quarto-price-box__pet {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--rc-terracota, #8A3A2A);
+  margin-bottom: 6px;
+}
+
+.quarto-price-box__cta {
+  background: var(--rc-terracota, #8A3A2A);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.quarto-price-box__cta:hover {
+  background: var(--rc-terracota-hover, #9C4A37);
+}
+
+.quarto-price-box__back {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--rc-terracota, #8A3A2A);
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+.quarto-related {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px 24px 80px;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+}
+
+.quarto-related h2 {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 22px;
+  color: var(--rc-terracota, #8A3A2A);
+  margin: 0 0 20px;
+}
+
+.quarto-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+.quarto-related__card {
+  text-decoration: none;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--rc-card-bg, #F4F1EB);
+  box-shadow: 0 6px 18px rgba(138, 58, 42, 0.12);
+  display: block;
+}
+
+.quarto-related__card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+
+.quarto-related__name {
+  display: block;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--rc-terracota, #8A3A2A);
+}
+
+.quarto-notfound {
+  max-width: 600px;
+  margin: 140px auto 80px;
+  text-align: center;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  color: var(--rc-text-muted, #6B5847);
+  padding: 0 24px;
+}
+
+@media (max-width: 860px) {
+  .quarto-body {
+    grid-template-columns: 1fr;
+  }
+  .quarto-price-box {
+    position: static;
+  }
+}

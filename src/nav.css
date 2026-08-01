@@ -1,0 +1,219 @@
+/* Aldeias Palace Hotel — header/nav e rodapé compartilhados entre páginas.
+   Header transparente sobre o hero, fica sólido ao rolar (regra do PRD 5.1). */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: transparent;
+  transition: background-color 220ms ease, box-shadow 220ms ease, padding 220ms ease;
+}
+
+.site-header.is-solid {
+  background: var(--rc-card-bg, #F4F1EB);
+  box-shadow: 0 2px 18px rgba(23, 33, 38, 0.08);
+  padding: 12px 32px;
+}
+
+.site-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.site-header__mark {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+.site-header__wordmark {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #F4F1EB;
+  transition: color 220ms ease;
+}
+
+.site-header.is-solid .site-header__wordmark {
+  color: var(--rc-terracota, #8A3A2A);
+}
+
+.site-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.site-header__link {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #F4F1EB;
+  text-decoration: none;
+  opacity: 0.92;
+  transition: opacity 160ms ease, color 220ms ease;
+}
+
+.site-header.is-solid .site-header__link {
+  color: #4A3B30;
+}
+
+.site-header__link:hover {
+  opacity: 1;
+}
+
+.site-header__link--active {
+  border-bottom: 1.5px solid var(--rc-gold, #D4AF37);
+  padding-bottom: 4px;
+}
+
+.site-header__cta {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--rc-terracota, #8A3A2A);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.site-header__cta:hover {
+  background: var(--rc-terracota-hover, #9C4A37);
+}
+
+.site-header__hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.site-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #F4F1EB;
+  margin: 5px 0;
+  transition: background-color 220ms ease;
+}
+
+.site-header.is-solid .site-header__hamburger span {
+  background: var(--rc-terracota, #8A3A2A);
+}
+
+.site-header__mobile-panel {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .site-header__nav {
+    position: fixed;
+    inset: 0;
+    background: var(--rc-card-bg, #F4F1EB);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+    transform: translateX(100%);
+    transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-header__nav.is-open {
+    transform: translateX(0);
+  }
+
+  .site-header__nav .site-header__link {
+    color: var(--rc-terracota, #8A3A2A);
+    font-size: 18px;
+  }
+
+  .site-header__nav .site-header__cta {
+    margin-top: 8px;
+  }
+
+  .site-header__hamburger {
+    display: block;
+    z-index: 60;
+  }
+}
+
+/* Aviso discreto de reserva pendente, some quando RESERVA_URL for preenchido */
+.reserva-pendente-note {
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  font-size: 12px;
+  color: var(--rc-text-muted, #6B5847);
+  text-align: center;
+  padding: 8px 16px;
+  background: var(--rc-cream-chip, #EADCC5);
+}
+
+/* Rodapé simples */
+.site-footer {
+  background: #1a1310;
+  color: #EADCC5;
+  font-family: var(--rc-body-font, 'Montserrat', sans-serif);
+  padding: 48px 24px 28px;
+  text-align: center;
+}
+
+.site-footer__wordmark {
+  font-family: var(--rc-title-font, 'Cinzel', serif);
+  font-size: 20px;
+  color: #F4F1EB;
+  margin: 0 0 14px;
+}
+
+.site-footer__nav {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.site-footer__nav a {
+  color: #EADCC5;
+  font-size: 13px;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.site-footer__nav a:hover {
+  opacity: 1;
+}
+
+.site-footer__copy {
+  font-size: 11.5px;
+  opacity: 0.6;
+}
+
+/* Botões de reserva desativados enquanto RESERVA_URL não estiver
+   preenchido em src/config.js — ver applyReservaState(). Fica visível mas
+   sem clique, com aviso de "em breve" no lugar do link real. */
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(35%);
+}
+
+.is-disabled::after {
+  content: ' (em breve)';
+  font-size: 0.82em;
+  font-weight: 500;
+  opacity: 0.85;
+}
